@@ -1,0 +1,48 @@
+<div class="allPage">
+  <div class="headerText">
+    <div class="col-12">
+      <h3 class="ms-4 pt-3 pb-3">ระบบลางาน</h3>
+    </div>
+  </div>
+  <div class="col-12 p-4">
+    <mat-tab-group [(selectedIndex)]="selectedTabIndex" mat-stretch-tabs="false" mat-align-tabs="start"
+      class="rounded tabText tabTop">
+      <mat-tab><ng-template mat-tab-label>
+          <p class="tabText">แดชบอร์ด</p>
+        </ng-template></mat-tab>
+      <mat-tab><ng-template mat-tab-label>
+          <p class="tabText">ขอลางาน</p>
+        </ng-template></mat-tab>
+      <mat-tab><ng-template mat-tab-label>
+          <p class="tabText">ประวัติการลา</p>
+        </ng-template></mat-tab>
+      <mat-tab><ng-template mat-tab-label>
+          <p class="tabText">อนุมัติการลา</p>
+        </ng-template></mat-tab>
+    </mat-tab-group>
+
+    <div class="tab-content-container mt-4">
+      <ng-container [ngSwitch]="selectedTabIndex">
+
+        <ng-container *ngSwitchCase="0">
+          <app-dashboard [id]="id"></app-dashboard>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="1">
+          <app-request [id]="id"></app-request>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="2">
+          <div class="pt-3">
+            <app-history></app-history>
+          </div>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="3">
+          <app-approving></app-approving>
+        </ng-container>
+        
+      </ng-container>
+    </div>
+  </div>
+</div>

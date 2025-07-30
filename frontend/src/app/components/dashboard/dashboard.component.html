@@ -1,0 +1,114 @@
+<div class="d-flex">
+    <div class="col-4 pe-2 ps-2">
+        <div class=" dashboardBorder">
+            <div class="col-12 d-flex">
+                <div class="col-4 d-flex justify-content-center align-items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="60px" viewBox="0 -960 960 960" width="60px"
+                        fill="#5084C1">
+                        <path
+                            d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Z" />
+                    </svg>
+                </div>
+                <div class="col-8">
+                    <p>วันลาคงเหลือ</p>
+                    <p class="textDashboard">{{remainDay}} วัน</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-4 pe-2 ps-2">
+        <div class=" dashboardBorder">
+            <div class="col-12 d-flex">
+                <div class="col-4 d-flex justify-content-center align-items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="60px" viewBox="0 -960 960 960" width="60px"
+                        fill="#8B7DBE">
+                        <path
+                            d="M320-440h320v-80H320v80Zm0 120h320v-80H320v80Zm0 120h200v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z" />
+                    </svg>
+                </div>
+                <div class="col-8">
+                    <p>ลาทั้งหมดปีนี้</p>
+                    <p class="textDashboard">{{dayLeaveUsed}} วัน</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-4 pe-2 ps-2">
+        <div class=" dashboardBorder">
+            <div class="col-12 d-flex">
+                <div class="col-4 d-flex justify-content-center align-items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="60px" viewBox="0 -960 960 960" width="60px"
+                        fill="#78A75A">
+                        <path
+                            d="m612-292 56-56-148-148v-184h-80v216l172 172ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-400Zm0 320q133 0 226.5-93.5T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160Z" />
+                    </svg>
+                </div>
+                <div class="col-8">
+                    <p>ลาที่รออนุมัติ</p>
+                    <p class="textDashboard">{{ requestPending?.length || 0 }} รายการ</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-12 pe-2 ps-2 pt-5 rounded">
+    <div class="dashboardBorder">
+        <div class="p-3">
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">วันที่</th>
+                        <th scope="col">ประเภท</th>
+                        <th scope="col">จำนวนวัน</th>
+                        <th scope="col">สถานะ</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                        <tr *ngFor="let req of myRequest">
+                            <td>
+                                <span *ngIf="!(req.amountDays <= 1)">{{ req.startDate | dateToShow }} - {{ req.endDate | dateToShow }}</span>
+                                <span *ngIf="req.amountDays <= 1">{{ req.startDate | dateToShow }}</span>
+                            </td>
+                            <td>
+                                <span *ngIf="req.leaveTypeId == 'sick_leave'">ลาป่วย</span>
+                                <span *ngIf="req.leaveTypeId == 'personal_leave'">ลากิจ</span>
+                                <span *ngIf="req.leaveTypeId == 'vacation_leave'">ลาพักร้อน</span>
+                            </td>
+                            <td>{{req.amountDays}}</td>
+                            <td>
+                                <div>
+                                    <span style="font-size: 15px; font-weight: 500;"
+                                        class="badge rounded-pill text-bg-warning"
+                                        *ngIf="req.status == 'waiting'"
+                                        >รออนุมัติ</span>
+                                </div>
+                                <div>
+                                    <span style="font-size: 15px; font-weight: 500;"
+                                        class="badge rounded-pill text-bg-success"
+                                        *ngIf="req.status == 'approved'"
+                                        >อนุมัติ</span>
+                                </div>
+                                <div>
+                                    <span style="font-size: 15px; font-weight: 500;"
+                                        class="badge rounded-pill text-bg-danger"
+                                        *ngIf="req.status == 'rejected'"
+                                        >ไม่อนุมัติ</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="col-12 pe-2 ps-2 pt-5">
+    <div class="col-12 rounded calendarBorder">
+        <div class="p-2">
+            <full-calendar [options]="calendarOptions"></full-calendar>
+        </div>
+    </div>
+</div> -->
